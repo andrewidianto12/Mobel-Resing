@@ -124,7 +124,7 @@
     <div class="flex flex-col gap-2 w-full">
 
       <!-- Touch Controls Row (For Mobile & Tablet or Mouse Clicks) -->
-      <div class="pointer-events-auto flex items-end justify-between w-full gap-2 pb-1">
+      <div id="mobile-controls" class="pointer-events-auto flex items-end justify-between w-full gap-2 pb-1">
         <!-- Left Side: Steering Left & Right -->
         <div class="flex items-center gap-2.5 sm:gap-3">
           <button id="btn-touch-left" class="touch-btn w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex flex-col items-center justify-center text-white select-none">
@@ -142,7 +142,7 @@
         </div>
 
         <!-- Center Dashboard: Speedometer, RPM Bar & Nitro Gauge -->
-        <div class="glass-panel rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 flex flex-col items-center min-w-[190px] sm:min-w-[270px] mx-auto">
+        <div id="mobile-dashboard" class="glass-panel rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 flex flex-col items-center min-w-[190px] sm:min-w-[270px] mx-auto">
           <div class="flex items-baseline justify-between w-full gap-3">
             <!-- Gear Badge -->
             <div class="flex items-center gap-1.5">
@@ -196,7 +196,7 @@
       </div>
 
       <!-- Desktop Keyboard Hint Bar -->
-      <div class="hidden lg:flex items-center justify-center gap-5 text-[11px] text-slate-300/80 font-medium pb-0.5">
+      <div id="keyboard-hints" class="hidden lg:flex items-center justify-center gap-5 text-[11px] text-slate-300/80 font-medium pb-0.5">
         <span><strong class="text-white">W / ↑</strong> : Gas</span>
         <span><strong class="text-white">S / ↓</strong> : Rem & Mundur</span>
         <span><strong class="text-white">A / D / ← / →</strong> : Belok</span>

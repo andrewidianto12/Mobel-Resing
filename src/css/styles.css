@@ -315,13 +315,87 @@ button {
   }
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (hover: none) {
   button {
     min-height: 44px;
   }
 
   .touch-btn {
     cursor: default;
+  }
+
+  #keyboard-hints {
+    display: none !important;
+  }
+
+  #mobile-controls {
+    position: relative;
+    min-height: 68px;
+    gap: 0.3rem !important;
+  }
+
+  #mobile-controls > div:first-child,
+  #mobile-controls > div:last-child {
+    gap: 0.25rem !important;
+  }
+
+  #mobile-dashboard {
+    position: absolute !important;
+    bottom: 68px !important;
+    left: 50% !important;
+    width: 164px !important;
+    min-width: 164px !important;
+    margin: 0 !important;
+    padding: 0.35rem 0.55rem !important;
+    transform: translateX(-50%) !important;
+    border-radius: 0.75rem !important;
+    background: rgba(12, 19, 33, 0.68);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  #mobile-dashboard > div:nth-child(2) {
+    display: none;
+  }
+
+  #mobile-dashboard > div:first-child {
+    gap: 0.4rem;
+  }
+
+  #mobile-dashboard #hud-speed {
+    font-size: 1.45rem !important;
+    line-height: 1.5rem;
+  }
+
+  #mobile-dashboard #hud-gear {
+    font-size: 0.75rem !important;
+    padding: 0.1rem 0.35rem;
+  }
+
+  #mobile-dashboard > div:last-child {
+    margin-top: 0.2rem;
+    gap: 0.3rem;
+  }
+
+  #mobile-dashboard > div:last-child > span:first-child {
+    font-size: 8px;
+  }
+
+  #btn-touch-left,
+  #btn-touch-right {
+    width: 54px !important;
+    height: 60px !important;
+  }
+
+  #btn-touch-nitro,
+  #btn-touch-brake {
+    width: 48px !important;
+    height: 60px !important;
+  }
+
+  #btn-touch-gas {
+    width: 58px !important;
+    height: 68px !important;
   }
 }
 

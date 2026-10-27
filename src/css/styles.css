@@ -1,0 +1,333 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+:root {
+  --app-height: 100vh;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+@supports (height: 100dvh) {
+  :root { --app-height: 100dvh; }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: var(--app-height);
+  min-height: var(--app-height);
+  overflow: hidden;
+  overscroll-behavior: none;
+  background-color: #090d16;
+  touch-action: manipulation;
+}
+
+button {
+  border: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-racing {
+  font-family: 'Orbitron', sans-serif;
+}
+
+#canvas-container {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: var(--app-height);
+  z-index: 1;
+}
+
+#canvas-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#race-hud {
+  touch-action: none;
+  padding-top: max(0.75rem, var(--safe-top));
+  padding-right: max(0.75rem, var(--safe-right));
+  padding-bottom: max(0.75rem, var(--safe-bottom));
+  padding-left: max(0.75rem, var(--safe-left));
+}
+
+#garage-modal,
+#results-modal {
+  height: var(--app-height);
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding-top: max(1rem, var(--safe-top));
+  padding-right: max(1rem, var(--safe-right));
+  padding-bottom: max(1rem, var(--safe-bottom));
+  padding-left: max(1rem, var(--safe-left));
+}
+
+#orientation-hint {
+  padding-top: max(1.5rem, var(--safe-top));
+  padding-right: max(1.5rem, var(--safe-right));
+  padding-bottom: max(1.5rem, var(--safe-bottom));
+  padding-left: max(1.5rem, var(--safe-left));
+}
+
+#orientation-hint:not(.hidden) {
+  display: flex;
+}
+
+.glass-panel {
+  background: rgba(12, 19, 33, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.glass-pill {
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.touch-btn {
+  background: rgba(15, 23, 42, 0.76);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  touch-action: none;
+  transition: transform 0.08s ease, background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.touch-btn:active,
+.touch-btn.active {
+  transform: scale(0.92);
+  background: rgba(56, 189, 248, 0.35);
+  border-color: #38bdf8;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.5); }
+  50% { box-shadow: 0 0 28px rgba(56, 189, 248, 0.9); }
+}
+
+.nitro-ready-glow {
+  animation: pulseGlow 1.4s infinite;
+}
+
+@keyframes popScale {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.countdown-pop {
+  animation: popScale 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Compact racing HUD for phones and small tablets. */
+@media (max-width: 900px), (max-height: 560px) {
+  #race-hud {
+    gap: 0.25rem;
+    padding-top: max(0.4rem, var(--safe-top));
+    padding-right: max(0.4rem, var(--safe-right));
+    padding-bottom: max(0.4rem, var(--safe-bottom));
+    padding-left: max(0.4rem, var(--safe-left));
+  }
+
+  #race-hud > div:first-child {
+    gap: 0.35rem;
+  }
+
+  #race-hud > div:first-child > div:first-child {
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+  }
+
+  #race-hud > div:first-child > div:first-child > .glass-panel {
+    min-width: 58px;
+    border-radius: 0.75rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  #race-hud > div:first-child > div:first-child > .glass-panel span:first-child {
+    font-size: 7px;
+  }
+
+  #hud-position,
+  #hud-lap {
+    font-size: 1.25rem !important;
+    line-height: 1.25rem;
+  }
+
+  #race-hud > div:first-child > div:last-child {
+    gap: 0.35rem;
+  }
+
+  #race-hud > div:first-child > div:last-child > div:first-child {
+    gap: 0.25rem;
+  }
+
+  #race-hud > div:first-child > div:last-child button {
+    min-width: 42px;
+    min-height: 42px;
+    padding: 0.45rem;
+    justify-content: center;
+  }
+
+  #minimap-canvas {
+    width: 76px !important;
+    height: 76px !important;
+  }
+
+  #minimap-canvas + span {
+    display: none;
+  }
+
+  #hud-status-banner {
+    position: absolute;
+    top: max(3.3rem, calc(var(--safe-top) + 2.6rem));
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 48vw;
+    padding: 0.35rem 0.65rem;
+    text-align: center;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  #countdown-text {
+    font-size: clamp(2.8rem, 13vw, 5rem) !important;
+  }
+
+  #countdown-sub {
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
+  /* Bottom controls: steering left, pedals right, dashboard floats centrally. */
+  #race-hud > div:last-child > div:first-child {
+    position: relative;
+    min-height: 76px;
+    gap: 0.35rem;
+  }
+
+  #race-hud > div:last-child > div:first-child > div:first-child,
+  #race-hud > div:last-child > div:first-child > div:last-child {
+    gap: 0.3rem;
+  }
+
+  #race-hud > div:last-child > div:first-child > div:nth-child(2) {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    width: 174px;
+    min-width: 0;
+    margin: 0;
+    padding: 0.45rem 0.65rem;
+    transform: translateX(-50%);
+    border-radius: 0.85rem;
+  }
+
+  #hud-speed {
+    font-size: 1.65rem !important;
+  }
+
+  #btn-touch-left,
+  #btn-touch-right {
+    width: 58px !important;
+    height: 64px !important;
+    border-radius: 1rem;
+  }
+
+  #btn-touch-nitro,
+  #btn-touch-brake {
+    width: 52px !important;
+    height: 64px !important;
+    border-radius: 1rem;
+  }
+
+  #btn-touch-gas {
+    width: 62px !important;
+    height: 74px !important;
+    border-radius: 1rem;
+  }
+
+  .touch-btn span {
+    line-height: 1.05;
+  }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+  #race-hud > div:first-child > div:last-child > .glass-panel {
+    display: none;
+  }
+
+  #race-hud > div:last-child > div:first-child > div:nth-child(2) {
+    bottom: 78px;
+  }
+
+  #btn-touch-left,
+  #btn-touch-right {
+    width: 50px !important;
+  }
+
+  #btn-touch-nitro,
+  #btn-touch-brake {
+    width: 46px !important;
+  }
+
+  #btn-touch-gas {
+    width: 56px !important;
+  }
+}
+
+@media (max-height: 430px) and (orientation: landscape) {
+  #minimap-canvas {
+    width: 62px !important;
+    height: 62px !important;
+  }
+
+  #race-hud > div:last-child > div:first-child > div:nth-child(2) {
+    bottom: 70px;
+  }
+
+  #btn-touch-left,
+  #btn-touch-right,
+  #btn-touch-nitro,
+  #btn-touch-brake {
+    height: 58px !important;
+  }
+
+  #btn-touch-gas {
+    height: 66px !important;
+  }
+}
+
+@media (pointer: coarse) {
+  button {
+    min-height: 44px;
+  }
+
+  .touch-btn {
+    cursor: default;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown-pop,
+  .nitro-ready-glow {
+    animation: none;
+  }
+}
